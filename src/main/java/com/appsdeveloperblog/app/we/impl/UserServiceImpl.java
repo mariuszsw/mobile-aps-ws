@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity storedUserDetails = userRepository.save(userEntity);
 
 		UserDto returnValue = new UserDto();
-		BeanUtils.copyProperties(storedUserDetails, userEntity);
+		BeanUtils.copyProperties(storedUserDetails, returnValue);
 
 		return returnValue;
 	}

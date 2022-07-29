@@ -2,6 +2,8 @@ package com.appsdeveloperblog.app.we.impl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,19 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	Utils utils;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Override
 	public UserDto createUser(UserDto user) {
 
-		if(userRepository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record already exists");
-		
+		if (userRepository.findByEmail(user.getEmail()) != null)
+			throw new RuntimeException("Record already exists");
+
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
 
@@ -41,6 +44,11 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(storedUserDetails, returnValue);
 
 		return returnValue;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return null;
 	}
 
 }
